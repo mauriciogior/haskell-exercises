@@ -39,6 +39,7 @@ module Lecture1
 its behaviour, possible types for the function arguments and write the
 type signature explicitly.
 -}
+makeSnippet :: Int -> String -> String
 makeSnippet limit text = take limit ("Description: " ++ text) ++ "..."
 
 {- | Implement a function that takes two numbers and finds sum of
@@ -54,7 +55,8 @@ Explanation: @sumOfSquares 3 4@ should be equal to @9 + 16@ and this
 is 25.
 -}
 -- DON'T FORGET TO SPECIFY THE TYPE IN HERE
-sumOfSquares x y = error "TODO!"
+sumOfSquares :: Int -> Int -> Int
+sumOfSquares x y = (x^2) + (y^2)
 
 {- | Implement a function that returns the last digit of a given number.
 
@@ -67,7 +69,10 @@ sumOfSquares x y = error "TODO!"
 
 -}
 -- DON'T FORGET TO SPECIFY THE TYPE IN HERE
-lastDigit n = error "lastDigit: Not implemented!"
+lastDigit :: Int -> Int
+lastDigit n
+    | n >= 0 = n `mod` 10
+    | otherwise = ((-1) * n) `mod` 10
 
 {- | Write a function that takes three numbers and returns the
 difference between the biggest number and the smallest one.
@@ -81,7 +86,20 @@ and 1 is the smallest, and 7 - 1 = 6.
 Try to use local variables (either let-in or where) to implement this
 function.
 -}
-minmax x y z = error "TODO"
+minmax :: Int -> Int -> Int -> Int
+minmax x y z =
+    let smallest = minormax True [x, y, z]
+        biggest = minormax False [x, y, z]
+    in biggest - smallest
+    where
+        minormax :: Bool -> [Int] -> Int
+        minormax isMin l = go (l !! 0) l
+            where
+                go :: Int -> [Int] -> Int
+                go num l
+                    | null l = num
+                    | if isMin then head l < num else head l > num = go (head l) (drop 1 l)
+                    | otherwise = go num (drop 1 l)
 
 {- | Implement a function that takes a string, start and end positions
 and returns a substring of a given string from the start position to
@@ -98,7 +116,12 @@ start position can be considered as zero (e.g. substring from the
 first character) and negative end position should result in an empty
 string.
 -}
-subString start end str = error "TODO"
+subString :: Int -> Int -> String -> String
+subString start end str
+    | start < 0   = take (end + 1) str
+    | end < 0     = ""
+    | end < start = ""
+    | otherwise = take (end - start + 1) (drop start str)
 
 {- | Write a function that takes a String — space separated numbers,
 and finds a sum of the numbers inside this string.
@@ -108,7 +131,10 @@ and finds a sum of the numbers inside this string.
 
 The string contains only spaces and/or numbers.
 -}
-strSum str = error "TODO"
+strSum :: String -> Int
+strSum str = 
+    let nums = map (read) (words str)
+    in foldr (+) 0 nums
 
 {- | Write a function that takes a number and a list of numbers and
 returns a string, saying how many elements of the list are strictly
@@ -123,4 +149,16 @@ and lower than 6 elements (4, 5, 6, 7, 8 and 9).
 
 🕯 HINT: Use recursion to implement this function.
 -}
-lowerAndGreater n list = error "TODO"
+lowerAndGreater :: Int -> [Int] -> String
+lowerAndGreater n l =
+    let result = if null l then [0, 0] else go 0 0 l
+    in show n ++ " is greater than " ++ show (result !! 0) ++ " elements and lower than " ++ show (result !! 1) ++ " elements"
+    where
+        go :: Int -> Int -> [Int] -> [Int]
+        go high low (x:xs)
+            | null xs && n == x = [ high, low ]
+            | null xs && n > x  = [ high + 1, low ]
+            | null xs && n < x  = [ high, low + 1 ]
+            | n > x             = go (high + 1) low xs
+            | n < x             = go high (low + 1) xs
+            | otherwise         = go high low xs

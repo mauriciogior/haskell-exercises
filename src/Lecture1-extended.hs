@@ -228,9 +228,26 @@ customSort cmp (x:xs) =
 -- groupByKey [("a", 1), ("b", 2), ("a", 3), ("c", 4), ("b", 5)] should return [("a",[1,3]),("b",[2,5]),("c",[4])]
 -- groupByKey [(1,"a"), (2,"b"), (1,"c"), (3,"d")] should return [(1,["a","c"]),(2,["b"]),(3,["d"])]
 
+groupByKey :: Eq k => [(k, v)] -> [(k, [v])]
+groupByKey [] = []
+groupByKey list = map (\(k, vs) -> (k, reverse vs)) $ reverse $ go [] list
+    where
+        go :: Eq k => [(k, [v])] -> [(k, v)] -> [(k, [v])]
+        go grouped [] = grouped
+        go grouped ((k, v):kvs) =
+            let has = any (\(l, _) -> l == k) grouped
+            in if has
+               then go (map (\(l, ms) -> if l == k then (l, v:ms) else (l, ms)) grouped) kvs
+               else go ((k, [v]):grouped) kvs
+
 -- Implement a function deepReverse :: [a] -> [a] that reverses a list and all nested lists within it. Test cases:
 -- deepReverse [1, [2, 3], 4, [5, [6, 7]]] should return [[7, 6], 5], 4, [3, 2], 1]
 -- deepReverse ["a", ["b", "c"], ["d", ["e", "f"]]] should return [["f", "e"], "d"], ["c", "b"], "a"]
+
+data NestedList a = Elem a | List [NestedList a]
+
+deepReverse :: NestedList -> NestedList
+deepReverse 
 
 -- Write a function findLongestPalindromeSubstring :: String -> String that finds the longest palindrome substring in a given string. Test cases:
 -- findLongestPalindromeSubstring "babad" should return "bab" or "aba"

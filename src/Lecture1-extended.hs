@@ -276,3 +276,45 @@ deepReverse
 -- Write a function evaluateRPN :: String -> Double that evaluates a mathematical expression in Reverse Polish Notation. Test cases:
 -- evaluateRPN "3 4 +" should return 7.0
 -- evaluateRPN "5 1 2 + 4 * + 3 -" should return 14.0
+
+
+-- Implement takeWhile' that takes elements from a list as long as they satisfy a predicate.
+
+-- takeWhile' (<3) [1,2,3,4,1,2,3,4] should return [1,2]
+-- takeWhile' isUpper "ABCdEF" should return "ABC"
+-- Write dropWhile' that drops elements from a list as long as they satisfy a predicate.
+
+-- dropWhile' (<3) [1,2,3,4,1,2,3,4] should return [3,4,1,2,3,4]
+-- dropWhile' isUpper "ABCdEF" should return "dEF"
+-- Implement zip3' that zips three lists together into a list of triples.
+
+-- zip3' [1,2,3] [4,5,6] [7,8,9] should return [(1,4,7),(2,5,8),(3,6,9)]
+-- zip3' [1,2] [3,4,5] [6,7,8,9] should return [(1,3,6),(2,4,7)]
+-- Create splitAt' that splits a list at the given index.
+
+-- splitAt' 3 [1,2,3,4,5] should return ([1,2,3],[4,5])
+-- splitAt' 1 "hello" should return ("h","ello")
+-- Implement wordsWhen that splits a list into sublists based on a predicate.
+
+-- wordsWhen (==',') "apple,banana,cherry" should return ["apple","banana","cherry"]
+-- wordsWhen (==' ') "hello world" should return ["hello","world"]
+-- Write transposeMatrix that transposes a matrix (list of lists).
+
+-- transposeMatrix [[1,2,3],[4,5,6]] should return [[1,4],[2,5],[3,6]]
+-- transposeMatrix [[1,2],[3,4],[5,6]] should return [[1,3,5],[2,4,6]]
+-- Implement mapAccumL' that maps a function over a list while passing an accumulating parameter.
+
+-- mapAccumL' (\acc x -> (acc + x, acc)) 0 [1,2,3,4] should return (10,[0,1,3,6])
+-- mapAccumL' (\acc x -> (acc ++ [x], length acc)) [] "hello" should return ("hello",[0,1,2,3,4])
+-- Create findIndices' that finds all indices of elements satisfying a predicate.
+
+-- findIndices' even [1,2,3,4,5,6] should return [1,3,5]
+-- findIndices' (=='l') "hello" should return [2,3]
+-- Implement groupBy' that groups adjacent elements in a list according to a given equality function.
+
+-- groupBy' (\x y -> (x mod3) == (ymod 3)) [1,2,4,5,7,8,10,11] should return [[1],[2,4,5,7,8,10],[11]]
+-- groupBy' (\x y -> x == y) "mississippi" should return ["m","i","ss","i","ss","i","pp","i"]
+-- Write scanl1' that is similar to foldl1 but returns a list of successive reduced values from the left.
+
+-- scanl1' (+) [1,2,3,4,5] should return [1,3,6,10,15]
+-- scanl1' max [1,3,2,4,5] should return [1,3,3,4,5]
